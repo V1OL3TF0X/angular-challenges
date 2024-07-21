@@ -4,6 +4,7 @@ import {
   EventEmitter,
   Input,
   Output,
+  Signal,
   TemplateRef,
 } from '@angular/core';
 
@@ -15,9 +16,9 @@ import {
       [class]="customClass">
       <ng-content />
       <section>
-        <ng-container *ngFor="let item of list">
+        @for (item of list(); track item.id) {
           <ng-container *ngTemplateOutlet="listItem; context: item" />
-        </ng-container>
+        }
       </section>
       <button
         class="rounded-sm border border-blue-500 bg-blue-300 p-2"
@@ -29,8 +30,8 @@ import {
   standalone: true,
   imports: [NgIf, NgFor, NgTemplateOutlet],
 })
-export class CardComponent<Item> {
-  @Input() list: Item[] | null = null;
+export class CardComponent<Item extends { id: unknown }> {
+  @Input({ required: true }) list!: Signal<Item[]>;
   @Input() customClass = '';
   @Input({ required: true }) listItem!: TemplateRef<Item>;
   @Output() addNew = new EventEmitter<void>();
