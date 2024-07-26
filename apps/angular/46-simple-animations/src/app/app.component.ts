@@ -1,3 +1,11 @@
+import {
+  animate,
+  query,
+  stagger,
+  style,
+  transition,
+  trigger,
+} from '@angular/animations';
 import { Component } from '@angular/core';
 
 @Component({
@@ -17,9 +25,21 @@ import { Component } from '@angular/core';
       }
     }
   `,
+  animations: [
+    trigger('load', [
+      transition('void => enter', [
+        query(':self, :self .list-item', [
+          style({ opacity: 0, translate: '-25%' }),
+          stagger(100, [
+            animate('250ms ease-in', style({ opacity: 1, translate: 0 })),
+          ]),
+        ]),
+      ]),
+    ]),
+  ],
   template: `
     <div class="mx-20 my-40 flex gap-5">
-      <section>
+      <section [@load]="'enter'">
         <div>
           <h3>2008</h3>
           <p>
@@ -51,7 +71,7 @@ import { Component } from '@angular/core';
         </div>
       </section>
 
-      <section>
+      <section [@load]="'enter'">
         <div class="list-item">
           <span>Name:</span>
           <span>Samuel</span>
