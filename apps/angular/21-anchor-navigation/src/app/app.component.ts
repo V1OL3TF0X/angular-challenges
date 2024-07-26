@@ -8,5 +8,10 @@ import { RouterOutlet } from '@angular/router';
   template: `
     <router-outlet></router-outlet>
   `,
+  styles: `
+    html {
+      scroll-behavior: smooth;
+    }
+  `,
 })
 export class AppComponent {}
